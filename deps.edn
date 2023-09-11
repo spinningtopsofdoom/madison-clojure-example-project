@@ -1,0 +1,9 @@
+{:paths ["src"]
+ :deps  {org.clojure/clojure {:mvn/version "1.11.1"}}
+ :aliases
+ {:repl
+  {:exec-fn clojure.core.server/start-server
+   :exec-args {:name "repl-server"
+               :port 5555
+               :accept clojure.core.server/repl
+               :server-daemon false}}}}

@@ -13,7 +13,24 @@
 (def board (generate-board 200 cell-x cell-y))
 ; Takes a board of the game of life and returns the next time step
 (defn step [board]
-  board)
+  (->>
+    board
+    (mapcat (fn neighbors [[cell-x cell-y]]
+              (for
+                [x (range -1 2) y (range -1 2) :when (case [x y] [0 0] false true)]
+                [(mod (+ cell-x x) 50) (mod (+ cell-y y) 50)])))
+    (group-by identity)
+    (mapv
+      (fn parse [[cell neighbor-cells]]
+        [cell (if (board cell) :alive :dead) (count neighbor-cells)]))
+    (filter
+      (fn lives-on [[_ liveness neighbor-count]]
+        (case liveness
+          :alive (#{2 3} neighbor-count)
+          :dead (= 3 neighbor-count)
+          false)))
+    (map first)
+    (into #{})))
 
 (defn display-board [board]
   (println board))

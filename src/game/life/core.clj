@@ -6,8 +6,11 @@
 (def cell-y 40)
 (def board-size-x (* cell-size cell-x))
 (def board-size-y (* cell-size cell-y))
+
+(defn generate-board [cell-num x-size y-size]
+  (into #{} (repeatedly cell-num #(vector (rand-int x-size) (rand-int y-size)))))
 ; Boards are sets of x y coordinates
-(def board #{[0 0] [26 31] [8 12]})
+(def board (generate-board 200 cell-x cell-y))
 ; Takes a board of the game of life and returns the next time step
 (defn step [board]
   board)
